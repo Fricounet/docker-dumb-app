@@ -22,7 +22,7 @@ steps:
       - "--image"
       - "gcr.io/padok-lab/docker-dumb-app-baptistegc:$COMMIT_SHA"
       - "--region"
-      - "eu-west1"
+      - "europe-west1"
       - "--platform"
       - "managed"
 images:
