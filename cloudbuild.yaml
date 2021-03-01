@@ -1,0 +1,29 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/padok-lab/docker-dumb-app-baptistegc:$COMMIT_SHA",
+        ".",
+      ]
+  # Push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/padok-lab/docker-dumb-app-baptistegc:$COMMIT_SHA"]
+  # Deploy container image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "--allow-unauthenticated"
+      - "docker-dumb-app-baptistegc"
+      - "--image"
+      - "gcr.io/padok-lab/docker-dumb-app-baptistegc:$COMMIT_SHA"
+      - "--region"
+      - "europe-west1"
+      - "--platform"
+      - "managed"
+images:
+  - "gcr.io/padok-lab/docker-dumb-app-baptistegc:$COMMIT_SHA"
